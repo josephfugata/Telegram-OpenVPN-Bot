@@ -68,3 +68,18 @@ create - Create an OpenVPN profile.
 revoke - Revoke an OpenVPN profile.
 active - List active OpenVPN profiles.
 '
+read -p "Enter To Continue... "
+
+
+echo '
+net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+net.ipv4.tcp_fastopen=3' >> /etc/sysctl.conf
+
+sysctl -p
+
+
+
+
+
+
