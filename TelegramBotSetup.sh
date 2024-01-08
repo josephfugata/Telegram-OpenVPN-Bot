@@ -1,6 +1,18 @@
 #!/bin/bash
 
-# This will install telegram bot for Ubuntu 20.04 OpenVPN Server
+# This will install openvpn over proxy with simple telegram bot for Ubuntu 20.04 OpenVPN Server
+
+sudo wget https://raw.githubusercontent.com/Null3rror/OpenVPN-over-Proxy/master/openvpn-over-proxy-install.sh -O openvpn-over-proxy-install.sh && sudo bash openvpn-over-proxy-install.sh
+
+read -p "Enter your payload host (i.e m.tiktok.com): " PAYLOAD
+
+echo '
+http-proxy-option CUSTOM-HEADER Host $PAYLOAD
+http-proxy-option CUSTOM-HEADER Connection: keep-alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection: keep-alive
+' >> /etc/openvpn/server/client-common.txt
+
+
 
 # Check if Git is installed, if not, install it silently
 if ! command -v git &> /dev/null
@@ -39,11 +51,11 @@ read -p "Enter your Telegram Chat ID: " TELEGRAM_CHAT_ID
 git clone https://github.com/royalmo/openvpn-manager.git /root/openvpn-manager
 
 # Replace placeholders with user input
-echo "[GENERAL]
+echo '[GENERAL]
 BOT_TOKEN = $BOT_TOKEN
 SERVER_NAME = $SERVER_NAME
 [ADMINS]
-Joseph = $TELEGRAM_CHAT_ID" > /root/openvpn-manager/settings.ini
+Joseph = $TELEGRAM_CHAT_ID' > /root/openvpn-manager/settings.ini
 
 # Create systemd service for the Telegram bot
 echo '[Unit]
